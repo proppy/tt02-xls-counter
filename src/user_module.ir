@@ -2,6 +2,13 @@ package user_module
 
 file_number 0 "fake_file.x"
 
-top fn __user_module__user_module(io_in: bits[8]) -> bits[8] {
-  ret io_in: bits[8] = param(name=io_in)
+chan user_module__output_producer(bits[8], id=0, kind=streaming, ops=send_only, flow_control=ready_valid, metadata="""""")
+
+top proc __user_module__user_module_0_next(__token: token, __state: bits[8], init={0}) {
+  literal.5: bits[8] = literal(value=1, id=5, pos=[(0,13,13)])
+  tok: token = send(__token, __state, channel_id=0, id=4)
+  literal.3: bits[1] = literal(value=1, id=3)
+  add.6: bits[8] = add(__state, literal.5, id=6, pos=[(0,13,9)])
+  after_all.7: token = after_all(__token, tok, id=7)
+  next (after_all.7, add.6)
 }
