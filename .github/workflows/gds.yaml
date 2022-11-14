@@ -74,6 +74,7 @@ jobs:
     - name: install requirements
       run: pip install -r requirements.txt
     - name: run cocotb testbench
+      run: |    
         cat << EOF >> $GITHUB_STEP_SUMMARY
         # cocotb
         \`\`\`
