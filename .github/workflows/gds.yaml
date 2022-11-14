@@ -66,13 +66,27 @@ jobs:
     - xls
     runs-on: ubuntu-latest
     steps:
-    # need python
+    - name: checkout repo
+      uses: actions/checkout@v3
+
+    - name: restore rtl cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          src/user_module.x
+          src/user_module.ir
+          src/user_module_opt.ir
+          src/user_module.v
+        key: ${{ runner.os }}-${{ env.CACHE_NUMBER }}-rtl-${{ github.run_id }}
+
     - name: setup python
       uses: actions/setup-python@v4
       with:
         python-version: '3.10'
+
     - name: install requirements
       run: pip install -r requirements.txt
+    
     - name: run cocotb testbench
       run: |    
         cat << EOF >> $GITHUB_STEP_SUMMARY
