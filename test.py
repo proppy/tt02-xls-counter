@@ -18,7 +18,7 @@ async def test_test(dut):
     dut.io_in[0].value = 0
     await Timer(1, units='ns')
 
-    assert dut.out.value == 0
+    assert dut.io_out.value == 0
 
     # one more tick
     dut.io_in[0].value = 1
@@ -26,7 +26,7 @@ async def test_test(dut):
     dut.io_in[0].value = 0
     await Timer(1, units='ns')
 
-    assert dut.out.value == 1
+    assert dut.io_out.value == 1
 
     # even more ticks
     for i in range(254):
@@ -35,7 +35,7 @@ async def test_test(dut):
         dut.io_in[0].value = 0
         await Timer(1, units='ns')
 
-    assert dut.out.value == 255
+    assert dut.io_out.value == 255
 
     # the last tick
     dut.io_in[0].value = 1
@@ -43,4 +43,4 @@ async def test_test(dut):
     dut.io_in[0].value = 0
     await Timer(1, units='ns')
 
-    assert dut.out.value == 0
+    assert dut.io_out.value == 0
