@@ -1,4 +1,11 @@
 channels:
   - litex-hub
+  - main
 dependencies:
   - xls
+  - iverilog
+  - python
+  - pip
+  - pip:
+    - cocotb
+    - pytest
