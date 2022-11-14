@@ -4,5 +4,5 @@ module top(
 );
    wire 	    rdy = 1;
    wire 	    vld;
-   __counter__Counter_0_next counter0(io_in[0], io_in[1], rdy, out, vld);
+   user_module counter0(io_in[0], io_in[1], rdy, out, vld);
 endmodule
