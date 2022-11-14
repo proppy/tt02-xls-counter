@@ -1,12 +1,38 @@
-// Copyright 2022 Google LLC.
-// SPDX-License-Identifier: Apache-2.0
+proc Counter {
+  output_producer: chan<u8> out;
 
-pub fn user_module(io_in: u8) -> u8 {
-  io_in
+  init {
+    u8:0
+  }
+  
+  config(output_producer: chan<u8> out) {
+    (output_producer,)
+  }
+
+  next(tok: token, state: u8) {
+    let tok = send(tok, output_producer, state);
+    state+u8:1
+  }
 }
 
-#[test]
-fn user_module_test() {
-  let _= assert_eq(user_module(u8:0b0010_1010), u8:42);
-  _
+#[test_proc]
+proc Tester {
+  counter_c: chan<u8> in;
+  terminator: chan<bool> out;
+
+  init { () }
+
+  config(terminator: chan<bool> out) {
+    let (counter_p, counter_c) = chan<u8>;
+    spawn Counter(counter_p);
+    (counter_c, terminator)
+  }
+
+  next(tok: token, state: ()) {
+    let (tok, count) = recv(tok, counter_c);
+    let (tok, count) = recv(tok, counter_c);
+
+    let tok = send(tok, terminator, true);
+    ()
+  }
 }
