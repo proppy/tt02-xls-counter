@@ -52,6 +52,8 @@ jobs:
         ir_converter_main --top=user_module src/user_module.x > src/user_module.ir
         opt_main src/user_module.ir > src/user_module_opt.ir
         codegen_main --module_name user_module --use_system_verilog=false --clock_period_ps=1000 --delay_model=sky130  --reset=reset src/user_module_opt.ir > src/user_module.v
+        sed -i -e 's/output wire [7:0] out/output wire [7:0] io_out/' src/user_module.v
+        sed -i -e 's/assign out =/assign io_out =/' src/user_module.v
     
     - name: add verilog to summary
       run: |
