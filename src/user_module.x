@@ -1,4 +1,4 @@
-proc Counter {
+proc user_module {
   output_producer: chan<u8> out;
 
   init {
@@ -16,7 +16,7 @@ proc Counter {
 }
 
 #[test_proc]
-proc Tester {
+proc test {
   counter_c: chan<u8> in;
   terminator: chan<bool> out;
 
@@ -24,7 +24,7 @@ proc Tester {
 
   config(terminator: chan<bool> out) {
     let (counter_p, counter_c) = chan<u8>;
-    spawn Counter(counter_p);
+    spawn user_module(counter_p);
     (counter_c, terminator)
   }
 
