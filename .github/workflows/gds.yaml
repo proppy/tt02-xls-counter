@@ -61,6 +61,26 @@ jobs:
           src/user_module.v
         key: ${{ runner.os }}-${{ env.CACHE_NUMBER }}-rtl-${{ github.run_id }}
   
+  cocotb:
+    needs:
+    - xls
+    runs-on: ubuntu-latest
+    steps:
+    # need python
+    - name: setup python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+    - name: install requirements
+      run: pip install -r requirements.txt
+    - name: run cocotb testbench
+        cat << EOF >> $GITHUB_STEP_SUMMARY
+        # cocotb
+        \`\`\`
+        `make 2>&1`
+        \`\`\`
+        EOF    
+
   gds:
     needs:
     - xls
