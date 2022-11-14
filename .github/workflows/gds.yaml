@@ -34,7 +34,11 @@ jobs:
       run: |
         echo $CONDA/envs/tinytapeout/bin >> $GITHUB_PATH
     
-    - name: run dslx test
+    - name: add dslx test to summary
+      run: |
+        interpreter_main src/user_module.x
+    
+    - name: add dslx test result to summary
       run: |
         cat << EOF >> $GITHUB_STEP_SUMMARY
         # test
@@ -59,6 +63,10 @@ jobs:
         EOF
     
     - name: run cocotb testbench
+      run: |    
+        make
+    
+    - name: add cocotb result to summary
       run: |    
         cat << EOF >> $GITHUB_STEP_SUMMARY
         # cocotb
