@@ -30,7 +30,6 @@ proc test {
 
   next(tok: token, state: ()) {
     let (tok, count) = recv(tok, counter_c);
-    let (tok, count) = recv(tok, counter_c);
 
     let tok = send(tok, terminator, true);
     ()
